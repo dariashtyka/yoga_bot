@@ -3,9 +3,9 @@ import cv2 #load image
 import mediapipe as mp
 import matplotlib.pyplot as plt
 
-def process_image(file):
+def process_image(file_path):
     #Load image from file
-    image=cv2.imread(file)
+    image=cv2.imread(file_path)
 
     #Convert .jped-> rgb (for mediapipe)
     image_rgb=cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -151,16 +151,16 @@ def warrior2(landmark):
 def detect_pose(pose_processed):
     landmark=pose_processed.pose_landmarks.landmark
     if (downward_dog(landmark)):
-        print("Downward Dog") 
+        # print("Downward Dog") 
         return "Downward Dog"
     elif(tree(landmark)):
-        print("Tree")
+        # print("Tree")
         return "Tree"
     elif(warrior2(landmark)):
-        print("Warrior II")
+        # print("Warrior II")
         return "Warrior II"
     else:
-        print("Pose not detected")
+        # print("Pose not detected")
         return "Pose not detected"
 
 
