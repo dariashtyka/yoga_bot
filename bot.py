@@ -4,7 +4,9 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKe
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler
 from telegram.constants import ParseMode
 import random
-
+import detection
+from detection import detect_pose, process_image
+# Import all functions from detection.py
  # === Database initialization ===
 def init_db():
     conn = sqlite3.connect("users.db")
@@ -57,7 +59,7 @@ HISTORY_PRINT = {
     'Yoga in the USA': 'In the 20th century, yoga becomes popular in the USA thanks to masters such as Pattabhi Jois, B.K.S. Iyengar, and Indra Devi.',
     'Global Boom': 'From the late 20th century, yoga gains worldwide popularity as a health and spiritual practice.'
 }
-
+D_Q1=range(1)
 
 TOKEN = os.getenv("TOKEN")
 
