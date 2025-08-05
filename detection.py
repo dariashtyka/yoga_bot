@@ -89,7 +89,7 @@ def downward_dog(landmark):
     hip_angle=calculate_angle(wristR, hipR, heelR)
     hip_bent=hip_angle<=90 and hip_angle>=45
 
-    return hip_bent and arms_straight # and hipR_wristR_v.all()<0
+    return hip_bent and arms_straight , armR, armL, hip_angle# and hipR_wristR_v.all()<0
 
 def tree(landmark):
     #left leg
@@ -107,16 +107,15 @@ def tree(landmark):
     legR_angle=calculate_angle(hipR, kneeR, heelR)
     # print(f"Right leg{legR_angle}")
     heelLR_diff=heelR.y-heelL.y
-    heelRL_diff=heelL.y-heelR.y
     # print(f"Diff LR{heelLR_diff}")
     # print(f"Diff RL{heelRL_diff}")
     #calculating tree right leg bended
     tree_right=(is_about(legL_angle,180) and legR_angle<90 and heelLR_diff<0)
     #calculating tree left leg bended
-    tree_left=(is_about(legR_angle,180) and legL_angle<90 and heelRL_diff<0)
+    tree_left=(is_about(legR_angle,180) and legL_angle<90 and heelLR_diff>0)
 
     #result
-    return tree_right ^ tree_left #xor
+    return tree_right ^ tree_left, legL_angle, legR_angle, heelLR_diff #xor
 
 def warrior2(landmark):
     #arms
@@ -146,17 +145,17 @@ def warrior2(landmark):
     legL_bended=(is_about(legR_angle,180) and is_about(legL_angle,90, 30))
 
     #result
-    return is_about(arms_angle,180) and (legR_bended ^ legL_bended)
+    return is_about(arms_angle,180) and (legR_bended ^ legL_bended), arms_angle, legL_angle, legR_angle
 
 def detect_pose(pose_processed):
     landmark=pose_processed.pose_landmarks.landmark
-    if (downward_dog(landmark)):
+    if (downward_dog(landmark)[0]):
         # print("Downward Dog") 
         return "Downward Dog"
-    elif(tree(landmark)):
+    elif(tree(landmark)[0]):
         # print("Tree")
         return "Tree"
-    elif(warrior2(landmark)):
+    elif(warrior2(landmark)[0]):
         # print("Warrior II")
         return "Warrior II"
     else:
