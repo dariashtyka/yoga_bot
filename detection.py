@@ -2,6 +2,8 @@ import numpy as np
 import cv2 #load image
 import mediapipe as mp
 import matplotlib.pyplot as plt
+import joblib
+from sklearn.linear_model import LogisticRegression
 
 def process_image(file_path):
     #Load image from file
@@ -162,6 +164,54 @@ def detect_pose(pose_processed):
         # print("Pose not detected")
         return "Pose not detected"
 
+def pose_angles(landmark):
+    #arms
+    wristL=landmark[15]
+    shoulderL=landmark[11]
+    wristR=landmark[16]
+    #left leg
+    hipL=landmark[23]
+    kneeL=landmark[25]
+    heelL=landmark[29]
+    #right leg
+    hipR=landmark[24]
+    kneeR=landmark[26]
+    heelR=landmark[30]
+
+    #calculating arms open straight
+    arms_angle=calculate_angle(wristL, shoulderL, wristR)
+    # print(f"Arms angle{arms_angle}")
+    #calculating angles and difference
+    legL_angle=calculate_angle(hipL, kneeL, heelL)
+    # print(f"Left leg{legL_angle}")
+    legR_angle=calculate_angle(hipR, kneeR, heelR)
+    # print(f"Right leg{legR_angle}")
+
+    #result
+    return arms_angle, legL_angle, legR_angle
+
+def detect_pose_ai(pose_processed):
+    landmark=pose_processed.pose_landmarks.landmark
+
+    #Load AI model
+    model = joblib.load('yoga_pose_model.joblib')
+    #Give pose angles & get the name of the pose
+    result=model.predict([pose_angles(landmark)])
+    
+    # Return the result
+    # print(len(result[0]))
+    if (result[0]=="downward_dog"):
+        # print("Downward Dog") 
+        return "Downward Dog"
+    elif(result[0]=="tree"):
+        # print("Tree")
+        return "Tree"
+    elif(result[0]=="warrior2"):
+        # print("Warrior II")
+        return "Warrior II"
+    else:
+        # print("Pose not detected")
+        return "Pose not detected"
 
 #Tests
 # wrist=pose_processed.pose_landmarks.landmark[15]
@@ -172,6 +222,7 @@ def detect_pose(pose_processed):
 # detect_pose(process_image("poses/downwarddog.jpeg"))
 # detect_pose(process_image("poses/tree.jpg"))
 # detect_pose(process_image("poses/warrior2.jpg"))
+# print(detect_pose_ai(process_image("data/tree/tree1.jpg")))
 
 
 

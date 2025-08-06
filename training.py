@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+import joblib
 
 
 names=['angle1', 'angle2', 'angle3', 'pose']
@@ -53,6 +54,9 @@ y_test=test_data['pose']
 model= LogisticRegression()
 model.fit(X_train, y_train)
 y_res=model.predict(X_test)
+
+# Save the model to a file
+joblib.dump(model, 'yoga_pose_model.joblib')
 
 #Testing results
 print("Predictions:", y_res)

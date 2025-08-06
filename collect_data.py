@@ -5,14 +5,14 @@ from detection import *
 
 def collect_data(pose):
     folder={'war':'warrior2', 'tree':'tree', 'dd':'downward_dog'}
-    function={'war':warrior2, 'tree':tree, 'dd':downward_dog}
+    # function={'war':warrior2, 'tree':tree, 'dd':downward_dog}
     pose_data=""
     for i in range(1, 11):
         pose_processed=process_image(f'data/{folder[pose]}/{pose}{i}.jpg')
         landmarks=pose_processed.pose_landmarks.landmark
         line=""
-        for angle in function[pose](landmarks)[1:]:
-            line+=f"{angle}, "
+        for angle in pose_angles(landmarks):
+            line+=f"{angle},"
         line+=f"{folder[pose]}\n"
         pose_data+=line
     return pose_data

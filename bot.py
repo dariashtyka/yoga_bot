@@ -5,7 +5,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 from telegram.constants import ParseMode
 import random
 import detection
-from detection import detect_pose, process_image
+from detection import detect_pose, process_image, detect_pose_ai
 # Import all functions from detection.py
  # === Database initialization ===
 def init_db():
@@ -1119,7 +1119,8 @@ async def detection_process(update: Update, context: ContextTypes.DEFAULT_TYPE):
     pose_file=await context.bot.get_file(pose_file_id) #await because bot wait's for a file loading from server
     await pose_file.download_to_drive("user_photo.jpg") #await because bot wait's for a network request
     pose_processed=process_image("user_photo.jpg")
-    result=detect_pose(pose_processed)
+    # result=detect_pose(pose_processed)
+    result=detect_pose_ai(pose_processed)
     await update.message.reply_text(result)
 async def detection_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Detection is finished.✅")
