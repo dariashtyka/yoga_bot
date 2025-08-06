@@ -80,7 +80,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "   📜 History of yoga — /history\n\n"
         "🔘 OTHER\n"
         "   ▪️ Yoga exam /exam\n"
-        "   ▪️ Test for cultural yoga literacy /culture"
+        "   ▪️ Test for cultural yoga literacy /culture\n\n"
+        "🔘 STUDY\n"
+        "   🖼️ Interactive detection of the pose by photo /detect"
     )
 
 

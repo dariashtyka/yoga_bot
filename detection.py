@@ -202,13 +202,35 @@ def detect_pose_ai(pose_processed):
     # print(len(result[0]))
     if (result[0]=="downward_dog"):
         # print("Downward Dog") 
-        return "Downward Dog"
+        return (
+            "🐶 Downward-Facing Dog (Adho Mukha Svanasana)\n\n"
+            "   - Hands shoulder-width apart, fingers spread\n"
+            "   - Feet hip-width apart\n"
+            "   - Hips lift high, form an inverted \"V\"\n"
+            "   - Heels reach toward the floor\n"
+            "   - Relax head and neck, gaze at legs or navel\n"
+            "   - Engage core and thighs"
+        )
     elif(result[0]=="tree"):
         # print("Tree")
-        return "Tree"
+        return (
+            "🌳 Tree Pose (Vrikshasana)\n\n"
+            "   - Balance on one leg\n"
+            "   - Foot on inner thigh or calf (not knee)\n"
+            "   - Hands at heart or overhead\n"
+            "   - Engage core for stability\n"
+            "   - Focus on a still point (drishti)"
+        )
     elif(result[0]=="warrior2"):
         # print("Warrior II")
-        return "Warrior II"
+        return (
+            "🛡️ Warrior II (Virabhadrasana II)\n\n"
+            "   - Feet wide apart, front foot forward\n"
+            "   - Back foot turned slightly in\n"
+            "   - Front knee bent over ankle\n"
+            "   - Arms extended parallel to floor\n"
+            "   - Gaze over front hand"
+        )
     else:
         # print("Pose not detected")
         return "Pose not detected"
