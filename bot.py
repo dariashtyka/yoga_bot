@@ -4,7 +4,9 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKe
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler
 from telegram.constants import ParseMode
 import random
-
+import detection
+from detection import detect_pose, process_image, detect_pose_ai
+# Import all functions from detection.py
  # === Database initialization ===
 def init_db():
     conn = sqlite3.connect("users.db")
@@ -57,7 +59,7 @@ HISTORY_PRINT = {
     'Yoga in the USA': 'In the 20th century, yoga becomes popular in the USA thanks to masters such as Pattabhi Jois, B.K.S. Iyengar, and Indra Devi.',
     'Global Boom': 'From the late 20th century, yoga gains worldwide popularity as a health and spiritual practice.'
 }
-
+D_Q1=range(1)
 
 TOKEN = os.getenv("TOKEN")
 
@@ -78,7 +80,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "   📜 History of yoga — /history\n\n"
         "🔘 OTHER\n"
         "   ▪️ Yoga exam /exam\n"
-        "   ▪️ Test for cultural yoga literacy /culture"
+        "   ▪️ Test for cultural yoga literacy /culture\n\n"
+        "🔘 STUDY\n"
+        "   🖼️ Interactive detection of the pose by photo /detect"
     )
 
 
@@ -1106,6 +1110,23 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             print(f"Couldn't send the message {user_id}: {e}")
     await update.message.reply_text(f"The message has been sent to {count} users ✅")
+async def detection_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🧘🏼‍♀️ Send a photo to detect the yoga pose!\n\n" \
+                                    "✅ If you are done and you want to finish the detection send /end")
+    return D_Q1
+async def detection_process(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['photo']=update.message.photo
+    l=len(context.user_data['photo'])
+    pose_file_id=context.user_data['photo'][l-1].file_id
+    pose_file=await context.bot.get_file(pose_file_id) #await because bot wait's for a file loading from server
+    await pose_file.download_to_drive("user_photo.jpg") #await because bot wait's for a network request
+    pose_processed=process_image("user_photo.jpg")
+    # result=detect_pose(pose_processed)
+    result=detect_pose_ai(pose_processed)
+    await update.message.reply_text(result)
+async def detection_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Detection is finished.✅")
+    return ConversationHandler.END
 
 
 if __name__ == '__main__':
@@ -1207,7 +1228,15 @@ if __name__ == '__main__':
         },
         fallbacks=[CommandHandler('cancel', test_cancel)]
     )
-    
+    #Conversation handler for pose detection
+    pose_conv=ConversationHandler(
+        entry_points=[CommandHandler('detect', detection_start)],
+        states={
+            D_Q1:[MessageHandler(filters.PHOTO & ~filters.COMMAND, detection_process)]
+        },
+        fallbacks=[CommandHandler('end', detection_end)]
+    )
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(test_conv)
     app.add_handler(exam_conv)
@@ -1218,6 +1247,7 @@ if __name__ == '__main__':
     app.add_handler(yoga_conv)
     app.add_handler(CommandHandler("history", start_history))
     app.add_handler(CallbackQueryHandler(handle_choice_history, pattern="^choose_"))
+    app.add_handler(pose_conv)
 
     print("Bot started")
     app.run_polling()
