@@ -1,0 +1,71 @@
+-> LOGISTIC REGRESSION
+Predictions: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Actual labels: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Accuracy: 1.0
+Classes: ['downward_dog' 'tree' 'warrior2']
+Coefficients:
+ [[-0.03959593  0.08508158  0.09336463]
+ [-0.03202484 -0.07002248 -0.07605029]
+ [ 0.07162077 -0.0150591  -0.01731434]]
+
+-> DECISION TREE
+Predictions: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Actual labels: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Accuracy: 1.0
+if angle 1 is >107 it is definitely warrior 2(logical because only warrior 2 has arms straight)
+then if angel <=107 the check angle 3
+if angle3<=123 it is tree(logical because among tree and downward dog, right leg angle would be less for tree (one leg bent))
+and then if angle3>123 we check angle 2
+if angle 2 is <=117 it means that it wads leg left bented and it's tree, not two legs are straight and it's downward dog
+
+
+-> KNN
+Predictions: ['downward_dog' 'downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Actual labels: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Accuracy: 0.8888888888888888
+#distances
+(array([[  3.69185655,   5.37408964,   6.87991465,  11.26323515, 14.6477775 ],
+       [ 17.15744074,  18.59395196,  27.71083901,  30.57154567, 33.02995503],
+       [  3.54903978,   6.4657866 ,  10.1362356 ,  10.2148747 , 10.88980038],
+       [ 18.02033498,  38.00268568, 134.06398503, 138.22744243,  142.72873036],<-wrong one for k=5, the distances are larger
+       [  4.93692635,  15.41671136,  25.73725982,  40.37865144, 46.71225308],
+       [  5.50585246,  10.44452272,  29.79145833,  48.86839151, 50.75549459],
+       [  7.01950683,  20.3735684 ,  22.76686341,  28.7595571 , 63.84154384],
+       [ 14.35051583,  17.11474845,  31.97020522,  52.48101523, 69.67249443],
+       [ 15.5163127 ,  35.66173978,  40.77285952,  48.71928228, 53.61127652]]),
+#indices 
+array([[ 6,  1,  0,  5,  3],
+       [ 2,  4,  5,  3,  0],
+       [ 5,  0,  1,  4,  6],
+       [ 8,  7,  2,  3,  1],
+       [12,  9, 13, 10, 11],
+       [ 9, 12, 13, 10, 11],
+       [17, 16, 14, 15, 18],
+       [18, 20, 19, 16, 17],
+       [18, 20, 16, 19, 17]]))
+
+    for k=3
+Predictions: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Actual labels: ['downward_dog' 'downward_dog' 'downward_dog' 'tree' 'tree' 'tree' 'warrior2' 'warrior2' 'warrior2']
+Accuracy: 1.0
+#distances
+(array([[  3.69185655,   5.37408964,   6.87991465],
+       [ 17.15744074,  18.59395196,  27.71083901],
+       [  3.54903978,   6.4657866 ,  10.1362356 ],
+       [ 18.02033498,  38.00268568, 134.06398503],
+       [  4.93692635,  15.41671136,  25.73725982],
+       [  5.50585246,  10.44452272,  29.79145833],
+       [  7.01950683,  20.3735684 ,  22.76686341],
+       [ 14.35051583,  17.11474845,  31.97020522],
+       [ 15.5163127 ,  35.66173978,  40.77285952]]),
+#indices
+array([[ 6,  1,  0],
+       [ 2,  4,  5],
+       [ 5,  0,  1],
+       [ 8,  7,  2],
+       [12,  9, 13],
+       [ 9, 12, 13],
+       [17, 16, 14],
+       [18, 20, 19],
+       [18, 20, 16]]))
+
