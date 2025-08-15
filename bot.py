@@ -651,7 +651,6 @@ async def pain_q12(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def pain_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['q12'] = update.message.text
-    l = len(context.user_data)
     score = 0
     user_answer = {
         'q1': f"The largest muscle in the human body is the <u>{context.user_data['q1']}</u>.",
@@ -696,6 +695,7 @@ async def pain_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
         'q11': "Pain that lasts more than 3 months is called <u>chronic</u>. (Reference: Medical literature)",
         'q12': "Pain is always a sign of injury: <u>False</u>. (Reference: Medical literature)"
     }
+    l = len(correct_answers)
     results = []
 
     for q in [f'q{i}' for i in range(1, l+1)]:
