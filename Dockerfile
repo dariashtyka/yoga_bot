@@ -9,7 +9,7 @@ COPY . /app
 
 # Install system dependencies needed by OpenCV and MediaPipe
 RUN apt-get update && apt-get install -y \
-    ffmpeg libsm6 libxext6 libgl1-mesa-glx \
+    ffmpeg libsm6 libxext6 libgl1 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies without cache to keep image small
