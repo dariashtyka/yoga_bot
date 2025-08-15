@@ -4,6 +4,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKe
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler, CallbackQueryHandler
 from telegram.constants import ParseMode
 import random
+import time
 import detection
 from detection import detect_pose, process_image, detect_pose_ai
 # Import all functions from detection.py
@@ -1109,9 +1110,10 @@ async def detection_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return D_Q1
 async def detection_process(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        context.user_data['photo'] = update.message.photo
-        l = len(context.user_data['photo'])
-        pose_file_id = context.user_data['photo'][l-1].file_id
+        filename = f"user_photo_{int(time.time())}.jpg"
+        context.user_data['filename'] = update.message.photo
+        l = len(context.user_data['filename'])
+        pose_file_id = context.user_data['filename'][l-1].file_id
         pose_file = await context.bot.get_file(pose_file_id)
         await pose_file.download_to_drive("user_photo.jpg")
         pose_processed = process_image("user_photo.jpg")
