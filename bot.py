@@ -701,18 +701,11 @@ async def pain_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for q in [f'q{i}' for i in range(1, l+1)]:
         correct = ""
         user_a = context.user_data[q]
-        if q == 'q11':
-            if user_a == '50' or user_a == '60':
-                correct = "✅"
-                score += 1
-            else:
-                correct = "❌"
+        if user_a.lower() == correct_answers[q]:
+            score += 1
+            correct = "✅"
         else:
-            if user_a.lower() == correct_answers[q]:
-                score += 1
-                correct = "✅"
-            else:
-                correct = "❌"
+            correct = "❌"
         results.append(
             f"{q.upper()}:\n"
             f"⚪️ Your answer: {user_answer[q]} {correct}\n"
