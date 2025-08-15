@@ -915,7 +915,6 @@ async def yoga_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query=update.callback_query
     await query.answer()
     context.user_data['q9'] = query.data.split('_')[1]
-    l=len(context.user_data)
     questions = {
         'q1': {
             'A': 'Since ancient times, as soon as yoga appeared',
@@ -989,6 +988,7 @@ async def yoga_end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     }
     score = 0
     results = []
+    l=len(correct_answers)
     for q in [f'q{i}' for i in range(1, l+1)]:
         us_ans = context.user_data[q]
         cor_ans = correct_answers[q]
