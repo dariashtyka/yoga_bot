@@ -45,9 +45,9 @@ KNN and decision tree models were tested for comparison, but logistic regression
 **Yoga Bot is deployed on [Railway](https://railway.app/)**  
 It provides 24/7 availability of the bot, with no setup required from the user.
 
-## Demo (Coming Soon)
+## Demo
 
-A short YouTube video demonstrating all features will be added here.
+A short YouTube video demonstrating all features is [here](https://youtu.be/CDPF8k34Lc8).
 ## APIs and Libraries Used
 
 - **MediaPipe** – For extracting pose landmarks from images  
