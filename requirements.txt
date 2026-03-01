@@ -6,3 +6,7 @@ matplotlib
 joblib
 scikit-learn
 pandas
+transformers
+torch
+sentencepiece
+sacremoses
